@@ -5,7 +5,13 @@
  */
 package view;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 
 /**
@@ -112,12 +118,23 @@ public class CadastroAluno extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void carregarImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carregarImagemActionPerformed
-        JFileChooser jfcImagem = new JFileChooser();
-        jfcImagem.setDialogType(JFileChooser.OPEN_DIALOG);
-        jfcImagem.setDialogTitle("Abrir Arquivo");     
-//        FileFilter filter = new ExtensionFileFilter("JPG e PNG", new String[] { "jpg" , "png" });
-//        jfcImagem.setFileFilter(filter);
-//        jfcImagem.showDialog(this, null);
+        JFileChooser fc = new JFileChooser();
+        int retorno = fc.showDialog(this, "Selecione a Imagem");
+
+        if (retorno == JFileChooser.APPROVE_OPTION) {
+            File arquivo = fc.getSelectedFile();
+            BufferedImage imagemBmp = null;
+            try {
+                imagemBmp = ImageIO.read(arquivo);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            ImageIcon imagemLabel = new ImageIcon(imagemBmp);
+            fotoAluno.setIcon(new ImageIcon(
+                    imagemLabel.getImage().getScaledInstance(fotoAluno.getWidth(),
+                            fotoAluno.getHeight(), Image.SCALE_DEFAULT)));
+        }
     }//GEN-LAST:event_carregarImagemActionPerformed
 
     /**
